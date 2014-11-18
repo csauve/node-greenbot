@@ -1,0 +1,24 @@
+irc:
+  nick: "greenbot"
+  server: "irc.example.com"
+  options:
+    floodProtection: true
+    floodProtectionDelay: 1000
+    channels: [
+      "#channel"
+    ]
+
+global:
+  prefix: "!"
+  plugins:
+    pluginsDir: "/Users/example/greenbot/plugins"
+    enabledPlugins: [
+      "ignore"
+      "echo"
+    ]
+
+ignore:
+  nicks: [
+    /.+bot/i
+    "ChanServ"
+  ]

@@ -1,0 +1,45 @@
+{
+  "name": "greenbot",
+  "version": "0.0.0",
+  "description": "A simple greenman-based IRC bot supporting plugins",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "greenbot": "./bin/greenbot.js"
+  },
+  "scripts": {
+    "test": "node_modules/mocha/bin/_mocha test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/csauve/node-greenbot.git"
+  },
+  "keywords": [
+    "irc",
+    "bot",
+    "plugins",
+    "framework",
+    "modular",
+    "greenman"
+  ],
+  "author": "csauve",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/csauve/node-greenbot/issues"
+  },
+  "homepage": "https://github.com/csauve/node-greenbot",
+  "devDependencies": {
+    "mocha": "^2.0.1"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "coffee-script": "^1.8.0",
+    "cson": "^1.6.1",
+    "greenman": "^1.0.0",
+    "minimist": "^1.1.0",
+    "underscore": "^1.7.0"
+  }
+}
