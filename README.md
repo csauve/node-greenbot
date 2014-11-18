@@ -1,4 +1,4 @@
-**Note: This project is still in development!**
+**Note: This project is still in development! Some of this documentation won't apply yet!**
 
 # Greenbot
 Greenbot is a plugin-oriented IRC bot built on [node-greenman](https://github.com/csauve/node-greenman). Plugins are loaded in a configurable order and act in middleware chains, allowing for various handling cases like filtering, message rewriting, logging, and anti-spam. Plugins can also depend on each other to enhance their capabilities. The bot can be run programmatically or from the command line.
@@ -13,7 +13,7 @@ $ greenbot init .
 ```
 
 ## Configuration
-Greenbot uses a `.cson` file as its configuration. From the init setup step above, you should have a "sample.config.cson" file for reference. Here's what the options do:
+From the init setup step above, you should have a "sample.config.cson" file for reference. Here's what the options do:
 
 ```coffee
 irc:
@@ -54,7 +54,7 @@ $ greenbot ./config.cson
 ```
 
 ## Plugin API
-Creating Greenbot plugins is very easy because they are just NPM modules implementing an `init` function in their `exports`. Here is a complete sample plugin that echos messages of the form "!echo <message>" and uses a rate limiting dependency to prevent spam:
+Creating Greenbot plugins is easy: they're just NPM modules implementing an `init` function in their `exports`. Here is a complete sample plugin that echos messages of the form `!echo <message>` and uses a rate limiting dependency to prevent spam:
 ```coffee
 rateLimit = require "nogo"
 
@@ -74,6 +74,7 @@ module.exports = init: (bot, config, plugins) ->
 ```
 
 The arguments to `init` are:
+
 1. `bot`: A Greenman instance. See the [node-greenman](https://github.com/csauve/node-greenman) readme for its full API
 2. `config`: The parsed CSON file provided at startup to Greenbot
 3. `plugins`: A map of all enabled plugins. This can be used to enhance functionality of plugins if certain other plugins are present
