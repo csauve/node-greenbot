@@ -1,21 +1,20 @@
-irc:
+greenbot:
   nick: "greenbot"
   server: "irc.example.com"
   options:
     floodProtection: true
     floodProtectionDelay: 1000
     channels: [
-      "#channel"
+      "#yourchannel"
     ]
+  pluginsDir: "/Users/example/greenbot/plugins"
+  plugins: [
+    "ignore",
+    "echo"
+  ]
 
 global:
   prefix: "!"
-  plugins:
-    pluginsDir: "/Users/example/greenbot/plugins"
-    enabledPlugins: [
-      "ignore"
-      "echo"
-    ]
 
 ignore:
   nicks: [

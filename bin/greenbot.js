@@ -2,7 +2,7 @@
 
 var minimist = require("minimist");
 var CSON = require("cson");
-var greenbot = require("..");
+var Greenbot = require("..");
 
 var argv = minimist(process.argv.slice(2));
 var configPath = argv._[0];
@@ -11,4 +11,5 @@ if (!configPath) {
 }
 
 var config = CSON.parseFileSync(configPath);
-greenbot.run(config);
+var bot = new Greenbot(config);
+bot.connect();

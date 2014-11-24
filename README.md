@@ -81,7 +81,7 @@ The arguments to `init` are:
 
 Of course, you can also expose other members on `exports` for other plugins to depend on.
 
-# Todo
+## Todo
 * Using Greenbot programmatically
 * Greenbot itself should not be responsible for loading plugins. Related to programmatic usage
 * Tests
