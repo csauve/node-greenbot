@@ -6,7 +6,7 @@ var Greenbot = require("..");
 
 var argv = minimist(process.argv.slice(2));
 
-if (argv.length != 1) {
+if (argv["_"].length != 1) {
   console.log("Usage: greenbot <config.cson>");
   process.exit(1);
 }
