@@ -1,60 +1,15 @@
-**Note: This project is still in development! Some of this documentation won't apply yet!**
-
 # Greenbot
-Greenbot is a plugin-oriented IRC bot built on [node-greenman](https://github.com/csauve/node-greenman). Plugins are loaded in a configurable order and act in middleware chains, allowing for various handling cases like filtering, message rewriting, logging, and anti-spam. Plugins can also depend on each other to enhance their capabilities. The bot can be run programmatically or from the command line.
+Greenbot is a plugin-oriented IRC bot built on [node-greenman](https://github.com/csauve/node-greenman), a [node-irc](https://github.com/martynsmith/node-irc/tree/0.3.x) wrapper. Plugins are loaded in a configurable order and act in middleware chains, allowing for various handling cases like filtering, message rewriting, logging, and anti-spam. Plugins can also depend on each other to enhance their capabilities. The bot can be run programmatically or from the command line.
 
-## Installation and Setup
+## Installation and Usage
+Install greenbot globally with NPM:
 ```sh
-# Installing greenbot globally as a command
 $ npm install -g greenbot
-
-# Create a sample configuration file and plugins directory in the current directory
-$ greenbot init .
 ```
-
-## Configuration
-From the init setup step above, you should have a "sample.config.cson" file for reference. Here's what the options do:
-
-```coffee
-irc:
-  # nick and server are used to construct the Greenman bot
-  nick: "greenbot"
-  server: "irc.example.com"
-  # these options are passed right through to the underlying dependency, node-irc, on startup
-  options:
-    floodProtection: true
-    floodProtectionDelay: 1000
-    channels: [
-      "#channel"
-    ]
-
-global:
-  # `config.global.prefix` can be optionally used by plugins in their message matching for consistency
-  prefix: "!"
-  plugins:
-    # absolute path to the modules directory. todo: should this be provided as a startup arg instead?
-    pluginsDir: "/Users/example/greenbot/plugins"
-    # plugins in the pluginsDir are loaded in this order:
-    enabledPlugins: [
-      "ignore"
-      "echo"
-    ]
-
-# the configuration is open to any additional configuration needed by plugins
-ignore:
-  nicks: [
-    /.+bot/i
-    "ChanServ"
-  ]
-```
-
-## Run It
-```sh
-$ greenbot ./config.cson
-```
+Now you're ready to set up plugins and create a configuration file.
 
 ## Plugin API
-Creating Greenbot plugins is easy: they're just NPM modules implementing an `init` function in their `exports`. Here is a complete sample plugin that echos messages of the form `!echo <message>` and uses a rate limiting dependency to prevent spam:
+A plugins directory is just a collection of node modules as sibling directories, where the directory name is the module name. Greenbot should be able to just `require` the directory to get the plugin. The only other requirement is that plugins must implement an `init` function on their exports. Here is a complete sample plugin that echos messages of the form `!echo <message>` and uses a rate limiting dependency to prevent spam:
 ```coffee
 rateLimit = require "nogo"
 
@@ -81,13 +36,65 @@ The arguments to `init` are:
 
 Of course, you can also expose other members on `exports` for other plugins to depend on.
 
-## Todo
-* Using Greenbot programmatically
-* Greenbot itself should not be responsible for loading plugins. Related to programmatic usage
-* Tests
+## Configuration
+Create a *config.cson* file or copy the example one in this project. This file will configure how the bot connects to IRC channels, what plugins are loaded and in what order, and how plugins will be individually configured.
+
+```coffee
+# The "greenbot" block is only used to setup the bot. All other configuration is of concern to plugins only
+greenbot:
+  nick: "greenbot"
+  server: "irc.example.com"
+  # These "options" are passed right through to the underlying dependency, node-irc, on startup
+  options:
+    floodProtection: true
+    floodProtectionDelay: 1000
+    channels: [
+      "#yourchannel"
+    ]
+    # Absolute path to the plugins directory
+    pluginsDir: "/Users/example/my-greenbot-plugins"
+    # List the plugins in pluginsDir you want enabled. See "Why does plugin order matter?" below
+    plugins: [
+      "ignore",
+      "echo"
+    ]
+
+# Any additional configuration needed by plugins:
+
+global:
+  prefix: "!"
+
+ignore:
+  nicks: [
+    /.+bot/i
+    "ChanServ"
+  ]
+```
+
+### Why does plugin order matter?
+Greenbot is mainly concerned with the idea of plugins, and uses [node-greenman](https://github.com/csauve/node-greenman) as its IRC bot. Greenman allows message handlers to be chained, such that a handler can decide not to pass the message on to subsequent handlers, or even modify the message contents. See the Greenman API for more information. For example, the included "ignore" plugin will only pass messages to the next handler in the chain if they're from non-ignored nicks. Because order matters, the plugin should be listed first.
+
+## Run It
+```sh
+$ greenbot ./config.cson
+```
+
+## Running programmatically
+Install greenbot non-globally:
+```sh
+npm install greenbot
+```
+Then `require` and construct it with a configuration object the same as documented above:
+```coffee
+Greenbot = require "greenbot"
+
+bot = new Greenbot(config)
+bot.connect()
+```
 
 ## Alternatives
 Not your cup of tea? Check out these other node IRC bots:
+* [irc-js-bot](https://github.com/colin-aarts/irc-js-bot)
 * [node-ircbot](https://github.com/draggor/node-ircbot)
 * [nodebot](https://github.com/Ricket/nodebot)
 

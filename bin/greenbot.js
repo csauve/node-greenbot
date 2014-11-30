@@ -5,11 +5,12 @@ var CSON = require("cson");
 var Greenbot = require("..");
 
 var argv = minimist(process.argv.slice(2));
-var configPath = argv._[0];
-if (!configPath) {
-  throw new Error("No config file provided");
+
+if (argv.length != 1) {
+  console.log("Usage: greenbot <config.cson>");
+  process.exit(1);
 }
 
-var config = CSON.parseFileSync(configPath);
+var config = CSON.parseFileSync(argv._[0]);
 var bot = new Greenbot(config);
 bot.connect();

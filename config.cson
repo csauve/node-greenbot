@@ -7,7 +7,7 @@ greenbot:
     channels: [
       "#yourchannel"
     ]
-  pluginsDir: "/Users/example/greenbot/plugins"
+  pluginsDir: "/Users/example/my-greenbot-plugins"
   plugins: [
     "ignore",
     "echo"
