@@ -11,6 +11,6 @@ if (argv["_"].length != 1) {
   process.exit(1);
 }
 
-var config = CSON.parseFileSync(argv._[0]);
+var config = CSON.parseFile(argv._[0]);
 var bot = new Greenbot(config);
 bot.connect();
