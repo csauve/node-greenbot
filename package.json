@@ -1,6 +1,6 @@
 {
   "name": "greenbot",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple greenman-based IRC bot supporting plugins",
   "main": "index.js",
   "directories": {
